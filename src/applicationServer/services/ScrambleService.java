@@ -20,6 +20,7 @@ public class ScrambleService implements Service {
             while (!(line = inputStream.readLine()).isEmpty()) {
                 // TODO actually do something here. anything.
                 outputStream.println(line);
+                outputStream.flush();
             }
         } catch (IOException e) {
             e.printStackTrace();
