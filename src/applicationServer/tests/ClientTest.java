@@ -11,11 +11,6 @@ class ClientTest {
     @BeforeAll
     static void setUp() {
         new Thread(() -> new Server().run()).start();
-        try {
-            Thread.sleep(1_000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test
