@@ -1,15 +1,16 @@
 package applicationServer.services;
 
+import applicationServer.Service;
 import applicationServer.impl.ServiceImpl;
 
 import java.net.Socket;
 
-public class PingService extends ServiceImpl {
+public class PingService extends ServiceImpl implements Service {
 
     private Socket socket;
 
-    public PingService(String name, int socketNumber, Socket socket) {
-        super(name, socketNumber, socket);
+    public PingService(Socket socket) {
+        super(socket);
         this.socket = socket;
     }
 
