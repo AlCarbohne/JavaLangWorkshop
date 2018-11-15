@@ -2,7 +2,7 @@ package applicationServer;
 
 import java.util.List;
 
-public interface serviceMap {
+public interface ServiceMap {
     /**
      * the currently available services
      */
