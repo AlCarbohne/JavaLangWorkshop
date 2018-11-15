@@ -17,16 +17,15 @@ public class Client implements applicationServer.Client {
     }
 
     private boolean isShutdown = false;
-    private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
 
     @Override
     public void run() {
         try {
-            this.socket = new Socket("localhost", Server.LISTEN_PORT);
-            this.inputStream = this.socket.getInputStream();
-            this.outputStream = this.socket.getOutputStream();
+            Socket socket = new Socket("localhost", Server.LISTEN_PORT);
+            this.inputStream = socket.getInputStream();
+            this.outputStream = socket.getOutputStream();
 
             sendRequests();
 
@@ -73,7 +72,7 @@ public class Client implements applicationServer.Client {
         commands.forEach(s -> {
             try {
                 System.out.println("Client:\t" + s);
-                writer.write(s);
+                writer.write(s + "\n");
                 writer.flush();
             } catch (IOException e) {
                 System.out.println("Error writing the command inside of Client");
