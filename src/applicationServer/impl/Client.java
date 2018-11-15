@@ -40,6 +40,10 @@ public class Client implements applicationServer.Client {
         List<String> commands = new ArrayList<>();
         commands.add("ping");
 
+        sendRequests(commands);
+    }
+
+    public void sendRequests(List<String> commands) {
         writeCommands(commands);
 
         readResults();
