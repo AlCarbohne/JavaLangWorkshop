@@ -2,7 +2,9 @@ package applicationServer.services;
 
 import applicationServer.Service;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.time.LocalDateTime;
 
@@ -16,7 +18,7 @@ public class TimeOfDayService implements Service {
     @Override
     public boolean start() {
         try (
-          PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
         ) {
             out.println(LocalDateTime.now());
             out.flush();

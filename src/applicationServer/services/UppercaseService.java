@@ -15,8 +15,8 @@ public class UppercaseService implements Service {
     @Override
     public boolean start() {
         try (
-          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-          PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
         ) {
             String s;
             while (!(s = in.readLine()).isEmpty()) {
