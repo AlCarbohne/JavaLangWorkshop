@@ -12,7 +12,7 @@ public class ServiceMap {
         map.put("ping", PingService::new);
         map.put("timeofday", TimeOfDayService::new);
         map.put("uppercase", UppercaseService::new);
-        map.put("tacho", Tachoservice::new);
+        map.put("tacho", TachoService::new);
         map.put("scramble", ScrambleService::new);
         return map;
     }

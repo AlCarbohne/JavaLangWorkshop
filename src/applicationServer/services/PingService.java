@@ -2,13 +2,12 @@ package applicationServer.services;
 
 import applicationServer.Service;
 
-import java.net.Socket;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class PingService implements Service {
-    private Socket socket;
 
-    public PingService(Socket socket) {
-        this.socket = socket;
+    public PingService(InputStream in, OutputStream out) {
     }
 
     @Override

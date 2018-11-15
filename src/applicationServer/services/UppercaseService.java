@@ -6,17 +6,19 @@ import java.io.*;
 import java.net.Socket;
 
 public class UppercaseService implements Service {
-    Socket socket;
+    InputStream inputStream;
+    OutputStream outputStream;
 
-    public UppercaseService(Socket socket) {
-        this.socket = socket;
+    public UppercaseService(InputStream inputStream, OutputStream outputStream) {
+        this.inputStream = inputStream;
+        this.outputStream = outputStream;
     }
 
     @Override
     public boolean start() {
         try (
-                BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-                PrintWriter out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
+                BufferedReader in = new BufferedReader(new InputStreamReader(this.inputStream));
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(this.outputStream))
         ) {
             String s;
             while (!(s = in.readLine()).isEmpty()) {
