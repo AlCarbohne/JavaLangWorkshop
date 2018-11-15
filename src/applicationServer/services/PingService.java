@@ -13,7 +13,6 @@ public class PingService implements Service {
 
     @Override
     public boolean start() {
-        //ToDO implement ping logic
-        return super.start();
+        return true;
     }
 }

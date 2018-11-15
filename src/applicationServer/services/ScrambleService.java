@@ -13,6 +13,6 @@ public class ScrambleService implements Service {
 
     @Override
     public boolean start() {
-        return super.start();
+        return false;
     }
 }

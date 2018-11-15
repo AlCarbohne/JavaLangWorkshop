@@ -70,11 +70,11 @@ public class Server {
                 } else {
                     out.println("OK");
                     out.flush();
-                    out.close();
-                    in.close();
+                    //out.close();
+                    //in.close();
                     Service service = sf.create(socket);
                     service.start();
-                    socket.close();
+                    //socket.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
