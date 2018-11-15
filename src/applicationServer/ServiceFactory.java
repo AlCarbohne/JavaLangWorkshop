@@ -1,5 +1,5 @@
 package applicationServer;
 
 public interface ServiceFactory {
-    Service createService();
+    Service createService(String name);
 }
