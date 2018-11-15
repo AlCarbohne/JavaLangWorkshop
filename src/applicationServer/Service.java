@@ -2,8 +2,8 @@ package applicationServer;
 
 public interface Service {
 
-    boolean start();
-
-    void shutdown();
+    default boolean start() {
+        return false;
+    }
 
 }
