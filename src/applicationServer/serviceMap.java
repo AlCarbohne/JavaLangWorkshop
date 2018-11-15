@@ -1,6 +1,6 @@
 package applicationServer;
 
-import io.vavr.collection.List;
+import java.util.List;
 
 public interface serviceMap {
     /**
