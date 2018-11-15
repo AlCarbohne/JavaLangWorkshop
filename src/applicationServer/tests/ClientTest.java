@@ -3,9 +3,20 @@ package applicationServer.tests;
 import applicationServer.impl.Client;
 import applicationServer.impl.Server;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class ClientTest {
+
+    @BeforeAll
+    void setUp() {
+        new Thread(() -> new Server().run());
+        try {
+            Thread.sleep(1_000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void testPing() {
