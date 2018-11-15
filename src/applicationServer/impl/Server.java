@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 
 public class Server {
 
@@ -29,10 +29,10 @@ public class Server {
         // bind to server port
 //        threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
         try {
-            listenerSocket = new ServerSocket(LISTEN_PORT);
+            this.listenerSocket = new ServerSocket(LISTEN_PORT);
             while (true) {
                 // TODO check the number of connections alive
-                new ServerThread(listenerSocket.accept()).start();
+                new ServerThread(this.listenerSocket.accept()).start();
             }
         } catch (IOException e) {
             log("FATAL: encountered exception while trying to bind to listening port, exiting");
@@ -46,9 +46,11 @@ public class Server {
 
     class ServerThread extends Thread {
         private Socket socket;
+
         private ServerThread(Socket socket) {
             this.socket = socket;
         }
+
         @Override
         public void run() {
             // read from socket and
@@ -59,8 +61,8 @@ public class Server {
                 service or the string "ls" to list all available services on the server.
              */
             try (
-                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
             ) {
                 String command = in.readLine();
                 ServiceFactory sf = serviceMap.get(command);
@@ -70,11 +72,11 @@ public class Server {
                 } else {
                     out.println("OK");
                     out.flush();
-                    //out.close();
-                    //in.close();
-                    Service service = sf.create(socket);
+                    out.close();
+                    in.close();
+                    Service service = sf.create(this.socket);
                     service.start();
-                    //socket.close();
+                    this.socket.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
