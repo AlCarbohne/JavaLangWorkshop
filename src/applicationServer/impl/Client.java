@@ -38,7 +38,7 @@ public class Client implements applicationServer.Client {
      * @return the answer from the server
      */
     public String sendRequests(String command) {
-        writeCommands(command);
+        writeCommand(command);
 
         return readResults();
     }
@@ -61,15 +61,18 @@ public class Client implements applicationServer.Client {
         return null;
     }
 
-    private void writeCommands(String command) {
+    /**
+     * @param command the command to send the Server - appends a \n
+     */
+    private void writeCommand(String command) {
         BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(this.outputStream, StandardCharsets.UTF_8)
         );
 
         try {
-            System.out.println("Client:\t" + command);
             writer.write(command + "\n");
             writer.flush();
+            System.out.println("Client:\t" + command);
         } catch (IOException e) {
             System.out.println("Error writing the command inside of Client");
         }

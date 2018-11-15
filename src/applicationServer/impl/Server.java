@@ -25,19 +25,19 @@ public class Server {
     private final Semaphore connections;
 
     public static void main(String[] args) {
-        new Server();
+        new Server().run();
     }
 
     public Server() {
         // bind to server port
-        connections = new Semaphore(MAX_CONNECTIONS);
-        threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
+        this.connections = new Semaphore(MAX_CONNECTIONS);
+        this.threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
         try {
             this.listenerSocket = new ServerSocket(LISTEN_PORT);
         } catch (IOException e) {
             System.err.println("FATAL: encountered exception while trying to bind to listening port, exiting");
             e.printStackTrace();
-            threadPool.shutdownNow();
+            this.threadPool.shutdownNow();
         }
     }
 
@@ -48,9 +48,9 @@ public class Server {
                 // acquire license to accept a connection from the connections semaphore
                 // NOTE: it is the connection thread's responsibility to release this
                 // license, i.e. to call connections.release()!
-                connections.acquire();
-                Socket s = listenerSocket.accept();
-                threadPool.submit(() -> runServerThread(s));
+                this.connections.acquire();
+                Socket s = this.listenerSocket.accept();
+                this.threadPool.submit(() -> runServerThread(s));
             } catch (IOException e) {
                 System.err.println("ERROR: encountered exception while trying to establish connection");
                 e.printStackTrace();
@@ -84,7 +84,7 @@ public class Server {
                 Service service = sf.create(in, out);
                 service.start();
                 socket.close();
-                connections.release();
+                this.connections.release();
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -9,7 +9,10 @@ class ClientTest {
 
     @Test
     void testPing() {
-        Thread thread = new Thread(Server::new);
+        Thread thread = new Thread(() -> {
+            Server server = new Server();
+            server.run();
+        });
         Client client = new Client();
 
         Assertions.assertEquals("OK", client.sendRequests("ping"));
@@ -20,11 +23,14 @@ class ClientTest {
 
     @Test
     void testUppercase() {
-        Thread thread = new Thread(Server::new);
+        Thread thread = new Thread(() -> {
+            Server server = new Server();
+            server.run();
+        });
         Client client = new Client();
 
         Assertions.assertEquals("OK", client.sendRequests("uppercase"));
-        Assertions.assertEquals("ABCDEFGH", client.sendRequests("aBcdeFGh"));
+        Assertions.assertEquals("ABCDEFGH1", client.sendRequests("aBcdeFGh1"));
 
         thread.interrupt();
         client.close();
