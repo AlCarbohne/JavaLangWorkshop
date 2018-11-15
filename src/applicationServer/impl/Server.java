@@ -35,13 +35,9 @@ public class Server {
                 new ServerThread(this.listenerSocket.accept()).start();
             }
         } catch (IOException e) {
-            log("FATAL: encountered exception while trying to bind to listening port, exiting");
+            System.err.println("FATAL: encountered exception while trying to bind to listening port, exiting");
 //            threadPool.shutdownNow();
         }
-    }
-
-    private static void log(String s) {
-        System.out.println(s);
     }
 
     class ServerThread extends Thread {
@@ -61,8 +57,8 @@ public class Server {
                 service or the string "ls" to list all available services on the server.
              */
             try (
-                    BufferedReader in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-                    PrintWriter out = new PrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
+                    BufferedReader in = new LoggingBufferedReader(new InputStreamReader(this.socket.getInputStream()));
+                    PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(this.socket.getOutputStream()))
             ) {
                 String command = in.readLine();
                 ServiceFactory sf = serviceMap.get(command);
@@ -72,13 +68,36 @@ public class Server {
                 } else {
                     out.println("OK");
                     out.flush();
-                    Service service = sf.create(this.socket);
+                    Service service = sf.create(in, out);
                     service.start();
                     this.socket.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class LoggingBufferedReader extends BufferedReader {
+        public LoggingBufferedReader(Reader in) {
+            super(in);
+        }
+        @Override
+        public String readLine() throws IOException {
+            String s = super.readLine();
+            System.out.println("[" + Thread.currentThread().getName() + ", read] " + s);
+            return s;
+        }
+    }
+
+    private class LoggingPrintWriter extends PrintWriter {
+        public LoggingPrintWriter(Writer out) {
+            super(out);
+        }
+        @Override
+        public void println(String s) {
+            System.out.println("[" + Thread.currentThread().getName() + ", write] " + s);
+            super.println(s);
         }
     }
 }
