@@ -1,14 +1,13 @@
 package applicationServer.impl;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class Client implements applicationServer.Client {
 
@@ -36,6 +35,32 @@ public class Client implements applicationServer.Client {
         List<String> commands = new ArrayList<>();
         commands.add("ping");
 
+        writeCommands(socket, commands);
+
+        readResults(socket);
+    }
+
+    private void readResults(Socket socket) {
+        try (InputStream inputStream = socket.getInputStream()) {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            inputStream,
+                            StandardCharsets.UTF_8)
+            );
+
+            while (!this.isShutdown) {
+                System.out.println(reader.readLine());
+                sleep(100);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error in getting inputStream at client");
+        } catch (InterruptedException e) {
+            System.out.println("Error when sleeping before next response-fetch in Client");
+        }
+    }
+
+    private void writeCommands(Socket socket, List<String> commands) {
         try (OutputStream outputStream = socket.getOutputStream()) {
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(
@@ -47,6 +72,7 @@ public class Client implements applicationServer.Client {
                 try {
                     System.out.println("Client:\t" + s);
                     writer.write(s);
+                    writer.flush();
                 } catch (IOException e) {
                     System.out.println("Error writing the command inside of Client");
                 }
