@@ -13,6 +13,6 @@ public class UppercaseService implements Service {
 
     @Override
     public boolean start() {
-
+        return false;
     }
 }
