@@ -2,8 +2,6 @@ package applicationServer.impl;
 
 import applicationServer.Service;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 
 public abstract class ServiceImpl implements Service {
@@ -12,13 +10,19 @@ public abstract class ServiceImpl implements Service {
     private int socketNumber;
     private Socket socket;
 
+    public ServiceImpl(String name, int socketNumber, Socket socket) {
+        this.name = name;
+        this.socketNumber = socketNumber;
+        this.socket = socket;
+    }
+
     @Override
     public String getName() {
         return this.name;
     }
 
     @Override
-    public boolean start(InputStream inStream, OutputStream outputStream) {
+    public boolean start() {
         return false;
     }
 
