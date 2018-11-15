@@ -23,9 +23,7 @@ public class Client implements applicationServer.Client {
     public void run() {
         try (Socket socket = new Socket("localhost", Server.LISTEN_PORT)) {
 
-            while (!this.isShutdown) {
-                sendRequests(socket);
-            }
+            sendRequests(socket);
 
         } catch (UnknownHostException e) {
             System.out.println("Could not resolve host!");
