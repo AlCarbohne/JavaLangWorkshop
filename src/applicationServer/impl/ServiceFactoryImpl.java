@@ -4,12 +4,14 @@ import applicationServer.Service;
 import applicationServer.ServiceFactory;
 
 public class ServiceFactoryImpl implements ServiceFactory {
-    public ServiceFactoryImpl(String serviceName) {
+    private String name;
 
+    public ServiceFactoryImpl(String name) {
+        this.name = name;
     }
 
     @Override
     public Service createService() {
-        return null;
+        return new ServiceImpl(this.name);
     }
 }
