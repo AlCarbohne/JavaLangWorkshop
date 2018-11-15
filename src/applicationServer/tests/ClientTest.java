@@ -1,6 +1,7 @@
 package applicationServer.tests;
 
 import applicationServer.impl.Client;
+import applicationServer.impl.Server;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 class ClientTest {
 
     @BeforeAll
-    void setUp() {
+    static void setUp() {
         new Thread(() -> new Server().run());
         try {
             Thread.sleep(1_000);
@@ -51,8 +52,11 @@ class ClientTest {
     void testTacho() {
         Client client = new Client();
 
-        Assertions.assertEquals("OK", client.sendRequests("uppercase"));
-        Assertions.assertEquals("ABCDEFGH1", client.sendRequests("aBcdeFGh1"));
+        Assertions.assertEquals("OK", "tacho");
+        Assertions.assertEquals("", "0");
+        Assertions.assertEquals("", "10");
+        Assertions.assertEquals("", "20");
+        Assertions.assertEquals("", "30");
 
         client.close();
     }
