@@ -70,8 +70,8 @@ public class Server {
             service or the string "ls" to list all available services on the server.
          */
         try (
-                BufferedReader in = new LoggingBufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(socket.getOutputStream()))
+          BufferedReader in = new LoggingBufferedReader(new InputStreamReader(socket.getInputStream()));
+          PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(socket.getOutputStream()))
         ) {
             String command = in.readLine();
             ServiceFactory sf = serviceMap.get(command);
