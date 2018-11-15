@@ -45,6 +45,7 @@ public class Client implements applicationServer.Client {
 
             commands.forEach(s -> {
                 try {
+                    System.out.println("Client:\t" + s);
                     writer.write(s);
                 } catch (IOException e) {
                     System.out.println("Error writing the command inside of Client");
