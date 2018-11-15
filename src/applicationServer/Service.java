@@ -2,5 +2,8 @@ package applicationServer;
 
 public interface Service {
 
-    boolean start();
+    default boolean start() {
+        return false;
+    }
+
 }

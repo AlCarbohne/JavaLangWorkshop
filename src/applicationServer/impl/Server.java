@@ -3,9 +3,7 @@ package applicationServer.impl;
 import applicationServer.Service;
 import applicationServer.ServiceFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Map;
@@ -23,6 +21,10 @@ public class Server {
     private ServerSocket listenerSocket;
     private ExecutorService threadPool;
 
+    public static void main(String[] args) {
+        new Server();
+    }
+
     public Server() {
         // bind to server port
 //        threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
@@ -35,8 +37,6 @@ public class Server {
         } catch (IOException e) {
             log("FATAL: encountered exception while trying to bind to listening port, exiting");
 //            threadPool.shutdownNow();
-        } finally {
-            listenerSocket.close();
         }
     }
 
@@ -60,16 +60,24 @@ public class Server {
              */
             try (
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
             ) {
                 String command = in.readLine();
                 ServiceFactory sf = serviceMap.get(command);
                 if (sf == null) {
-                    // do something
+                    out.println("Service \"" + command + "\" does not exist");
+                    out.flush();
                 } else {
+                    out.println("OK");
+                    out.flush();
+                    out.close();
+                    in.close();
                     Service service = sf.create(socket);
+                    service.start();
+                    socket.close();
                 }
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
     }
