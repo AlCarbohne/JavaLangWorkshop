@@ -1,5 +1,7 @@
 package applicationServer;
 
+import java.net.Socket;
+
 public interface ServiceFactory {
-    Service createService();
+    Service create(Socket socket);
 }

@@ -1,6 +1,7 @@
 package applicationServer.impl;
 
 import applicationServer.ServiceFactory;
+import applicationServer.services.PingService;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,5 +1,6 @@
 package applicationServer.impl;
 
+import applicationServer.Service;
 import applicationServer.ServiceFactory;
 
 import java.io.BufferedReader;
@@ -61,10 +62,15 @@ public class Server {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             ) {
                 String command = in.readLine();
+                ServiceFactory sf = serviceMap.get(command);
+                if (sf == null) {
+                    // do something
+                } else {
+                    Service service = sf.create(socket);
+                }
             } catch (IOException e) {
 
             }
-
         }
     }
 }
