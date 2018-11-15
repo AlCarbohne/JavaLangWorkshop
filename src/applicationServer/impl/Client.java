@@ -12,6 +12,11 @@ import java.util.List;
 
 public class Client implements applicationServer.Client {
 
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.run();
+    }
+
     private boolean isShutdown = false;
 
     @Override
