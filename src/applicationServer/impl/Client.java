@@ -53,7 +53,9 @@ public class Client implements applicationServer.Client {
 
             while (!this.isShutdown) {
                 String line = reader.readLine();
-                System.out.println(line);
+                if (line != null) {
+                    System.out.println(line);
+                }
                 sleep(100);
             }
 
