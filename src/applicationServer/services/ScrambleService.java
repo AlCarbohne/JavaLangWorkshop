@@ -2,21 +2,28 @@ package applicationServer.services;
 
 import applicationServer.Service;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
+import java.io.*;
 
 public class ScrambleService implements Service {
-    InputStream inputStream;
-    OutputStream outputStream;
+    BufferedReader inputStream;
+    PrintWriter outputStream;
 
-    public ScrambleService(InputStream inputStream, OutputStream outputStream) {
+    public ScrambleService(BufferedReader inputStream, PrintWriter outputStream) {
         this.inputStream = inputStream;
         this.outputStream = outputStream;
     }
 
     @Override
     public boolean start() {
+        try {
+            String line;
+            while (!(line = inputStream.readLine()).isEmpty()) {
+                // TODO actually do something here. anything.
+                outputStream.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

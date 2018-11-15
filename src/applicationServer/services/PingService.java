@@ -2,12 +2,12 @@ package applicationServer.services;
 
 import applicationServer.Service;
 
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 public class PingService implements Service {
 
-    public PingService(InputStream in, OutputStream out) {
+    public PingService(BufferedReader in, PrintWriter out) {
     }
 
     @Override
