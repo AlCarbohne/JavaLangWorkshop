@@ -36,6 +36,7 @@ class ClientTest {
     void testScramble() {
         Client client = new Client();
 
+        Assertions.assertEquals("OK", client.sendRequests("scramble"));
         String command = "A AB abc abcd aBcdE";
         String expected = "A AB abc acbd adcBE";
         Assertions.assertEquals(expected, client.sendRequests(command));
