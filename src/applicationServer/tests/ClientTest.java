@@ -10,7 +10,7 @@ class ClientTest {
 
     @BeforeAll
     static void setUp() {
-        new Thread(() -> new Server().run());
+        new Thread(() -> new Server().run()).start();
         try {
             Thread.sleep(1_000);
         } catch (InterruptedException e) {
@@ -52,11 +52,8 @@ class ClientTest {
     void testTacho() {
         Client client = new Client();
 
-        Assertions.assertEquals("OK", "tacho");
-        Assertions.assertEquals("", "0");
-        Assertions.assertEquals("", "10");
-        Assertions.assertEquals("", "20");
-        Assertions.assertEquals("", "30");
+        Assertions.assertEquals("OK", client.sendRequests("uppercase"));
+        Assertions.assertEquals("ABCDEFGH1", client.sendRequests("aBcdeFGh1"));
 
         client.close();
     }
@@ -66,7 +63,7 @@ class ClientTest {
         Client client = new Client();
 
         String command = "upperPing";
-        String expected = "Service \"\"" + command + "\"\" does not exist";
+        String expected = "Service \"" + command + "\" does not exist";
         Assertions.assertEquals(expected, client.sendRequests(command));
 
         client.close();

@@ -41,9 +41,9 @@ public class Server {
         }
     }
 
+    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while (true) {
-            // TODO check the number of connections alive
             try {
                 // acquire license to accept a connection from the connections semaphore
                 // NOTE: it is the connection thread's responsibility to release this
