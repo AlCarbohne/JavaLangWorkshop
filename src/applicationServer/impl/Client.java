@@ -17,12 +17,18 @@ public class Client implements applicationServer.Client {
     }
 
     private boolean isShutdown = false;
+    private Socket socket;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
     @Override
     public void run() {
-        try (Socket socket = new Socket("localhost", Server.LISTEN_PORT)) {
+        try {
+            this.socket = new Socket("localhost", Server.LISTEN_PORT);
+            this.inputStream = this.socket.getInputStream();
+            this.outputStream = this.socket.getOutputStream();
 
-            sendRequests(socket);
+            sendRequests();
 
         } catch (UnknownHostException e) {
             System.out.println("Could not resolve host!");
@@ -31,25 +37,24 @@ public class Client implements applicationServer.Client {
         }
     }
 
-    private void sendRequests(Socket socket) {
+    private void sendRequests() {
         List<String> commands = new ArrayList<>();
         commands.add("ping");
 
-        writeCommands(socket, commands);
+        writeCommands(commands);
 
-        readResults(socket);
+        readResults();
     }
 
-    private void readResults(Socket socket) {
-        try (InputStream inputStream = socket.getInputStream()) {
+    private void readResults() {
+        try {
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(
-                            inputStream,
-                            StandardCharsets.UTF_8)
+                    new InputStreamReader(this.inputStream, StandardCharsets.UTF_8)
             );
 
             while (!this.isShutdown) {
-                System.out.println(reader.readLine());
+                String line = reader.readLine();
+                System.out.println(line);
                 sleep(100);
             }
 
@@ -60,27 +65,21 @@ public class Client implements applicationServer.Client {
         }
     }
 
-    private void writeCommands(Socket socket, List<String> commands) {
-        try (OutputStream outputStream = socket.getOutputStream()) {
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(
-                            outputStream,
-                            StandardCharsets.UTF_8)
-            );
+    private void writeCommands(List<String> commands) {
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(this.outputStream, StandardCharsets.UTF_8)
+        );
 
-            commands.forEach(s -> {
-                try {
-                    System.out.println("Client:\t" + s);
-                    writer.write(s);
-                    writer.flush();
-                } catch (IOException e) {
-                    System.out.println("Error writing the command inside of Client");
-                }
-            });
+        commands.forEach(s -> {
+            try {
+                System.out.println("Client:\t" + s);
+                writer.write(s);
+                writer.flush();
+            } catch (IOException e) {
+                System.out.println("Error writing the command inside of Client");
+            }
+        });
 
-        } catch (IOException e) {
-            System.out.println("OutputStream of Client failed");
-        }
     }
 
     @Override
