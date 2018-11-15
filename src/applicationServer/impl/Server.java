@@ -72,8 +72,6 @@ public class Server {
                 } else {
                     out.println("OK");
                     out.flush();
-                    out.close();
-                    in.close();
                     Service service = sf.create(this.socket);
                     service.start();
                     this.socket.close();
