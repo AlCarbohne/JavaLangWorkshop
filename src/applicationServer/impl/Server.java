@@ -78,26 +78,4 @@ public class Server {
         }
     }
 
-    private class LoggingBufferedReader extends BufferedReader {
-        public LoggingBufferedReader(Reader in) {
-            super(in);
-        }
-        @Override
-        public String readLine() throws IOException {
-            String s = super.readLine();
-            System.out.println("[" + Thread.currentThread().getName() + ", read] " + s);
-            return s;
-        }
-    }
-
-    private class LoggingPrintWriter extends PrintWriter {
-        public LoggingPrintWriter(Writer out) {
-            super(out);
-        }
-        @Override
-        public void println(String s) {
-            System.out.println("[" + Thread.currentThread().getName() + ", write] " + s);
-            super.println(s);
-        }
-    }
 }
