@@ -47,13 +47,14 @@ public class VelocitySensor extends JFrame {
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        updaterThread = new Thread(this::updaterThreadFunction);
+        this.updaterThread = new Thread(this::updaterThreadFunction);
     }
 
     public void run() {
         this.setVisible(true);
         this.initConnection();
-        updaterThread.start();}
+        this.updaterThread.start();
+    }
 
     private void decreaseVelocity(ActionEvent event) {
         changeVelocity(-VELOCITY_DECREMENT);
@@ -72,18 +73,25 @@ public class VelocitySensor extends JFrame {
             newVelocity = MAX_VELOCITY;
         }
         this.velocity = newVelocity;
+        this.velocityDisplay.setText(Integer.toString(this.velocity));
     }
 
-    public void initConnection() {
+    public boolean initConnection() {
         if (this.client != null) {
-            return;
+            return false;
         }
         this.client = new Client();
         String serverResponse = this.client.sendRequests("tacho");
         if (serverResponse.equals("OK")) {
             this.connectionStateDisplay.setText("connected");
             this.connectionStateDisplay.setForeground(Color.GREEN);
+            return true;
         }
+        return false;
+    }
+
+    public int getVelocity() {
+        return this.velocity;
     }
 
     public void updaterThreadFunction() {
@@ -93,8 +101,8 @@ public class VelocitySensor extends JFrame {
                     initConnection();
                 } else {
                     synchronized (this) {
-                        client.sendRequests(Float.toString(velocity / 100));
-                        velocityDisplay.setText(Integer.toString(velocity));
+                        this.client.sendRequests(Float.toString(this.velocity / 100));
+                        this.velocityDisplay.setText(Integer.toString(this.velocity));
                     }
                 }
                 Thread.sleep(UPDATE_INTERVAL);
