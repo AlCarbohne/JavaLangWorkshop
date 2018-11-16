@@ -15,6 +15,6 @@ public class DownButton extends JButton {
             System.out.println("Error fetching image for DownButton");
         }
 
-        this.setMinimumSize(new Dimension(50, 50));
+        this.setMinimumSize(new Dimension(200, 200));
     }
 }

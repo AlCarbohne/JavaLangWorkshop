@@ -20,8 +20,8 @@ public class TachoService implements Service {
         try {
             String s;
             while (!(s = this.inputStream.readLine()).isEmpty()) {
-                /**
-                 *
+                /*
+                 * just send a acknowledge message and do not process it
                  */
                 this.outputStream.println("OK");
                 this.outputStream.flush();
