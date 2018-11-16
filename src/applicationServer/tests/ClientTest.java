@@ -54,6 +54,8 @@ class ClientTest {
         client.close();
     }
 
+    //ToDO TimeOfDay Test
+
     @Test
     void testWrongService() {
         Client client = new Client();
@@ -65,4 +67,28 @@ class ClientTest {
         client.close();
     }
 
+    @Test
+    void testNullService() {
+        Client client = new Client();
+
+        Assertions.assertEquals("Service \"null\" does not exist", client.sendRequests(null));
+
+        client.close();
+    }
+
+    @Test
+    void testEmptyService() {
+        Client client = new Client();
+
+        Assertions.assertEquals("Service \"\" does not exist", client.sendRequests(""));
+
+        client.close();
+    }
+
 }
+
+/*
+Client abstrakte methode
+Server mit lambda
+GUI
+ */

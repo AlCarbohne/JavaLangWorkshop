@@ -3,7 +3,9 @@ package applicationServer.impl;
 import applicationServer.ServiceFactory;
 import applicationServer.services.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServiceMap {
@@ -15,5 +17,15 @@ public class ServiceMap {
         map.put("tacho", TachoService::new);
         map.put("scramble", ScrambleService::new);
         return map;
+    }
+
+    
+    /**
+     * for the end user, otherwise the service names just have to be known
+     *
+     * @return list of every service name
+     */
+    public static List<String> serviceNames() {
+        return new ArrayList<>(ServiceMap.get().keySet());
     }
 }
