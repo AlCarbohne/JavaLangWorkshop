@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 
-public class Client implements applicationServer.Client {
+public class Client {
 
     public static void main(String[] args) {
         new Client();
@@ -16,22 +16,16 @@ public class Client implements applicationServer.Client {
             Socket socket = new Socket("localhost", Server.LISTEN_PORT);
             this.inputStream = socket.getInputStream();
             this.outputStream = socket.getOutputStream();
-
         } catch (UnknownHostException e) {
             System.out.println("Could not resolve host!");
         } catch (IOException e) {
-            System.out.println("Unexpected IO Exception occurred in Client");
+            System.out.println("Unexpected IO Exception occurred in AbstractClient");
         }
     }
 
     private boolean isShutdown = false;
     private InputStream inputStream;
     private OutputStream outputStream;
-
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("not yet");
-    }
 
     /**
      * @param command which to send to the server
@@ -72,14 +66,13 @@ public class Client implements applicationServer.Client {
         try {
             writer.write(command + "\n");
             writer.flush();
-            System.out.println("Client:\t" + command);
+            System.out.println("AbstractClient:\t" + command);
         } catch (IOException e) {
-            System.out.println("Error writing the command inside of Client");
+            System.out.println("Error writing the command inside of AbstractClient");
         }
 
     }
 
-    @Override
     public void close() {
         this.isShutdown = true;
     }
