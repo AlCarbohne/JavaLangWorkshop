@@ -14,7 +14,5 @@ public class UpButton extends JButton {
         } catch (Exception ex) {
             System.out.println("Error fetching image for UpButton");
         }
-
-        this.setMinimumSize(new Dimension(200, 200));
     }
 }
