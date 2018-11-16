@@ -23,7 +23,10 @@ public class VelocitySensor extends JFrame {
     private JLabel connectionStateDisplay;
 
     public static void main(String[] args) {
-        new VelocitySensor().setVisible(true);
+        VelocitySensor inst = new VelocitySensor();
+        inst.setVisible(true);
+        inst.initConnection();
+        new Thread(inst::updaterThreadFunction).start();
     }
 
     public VelocitySensor() {
@@ -44,9 +47,6 @@ public class VelocitySensor extends JFrame {
         this.add(this.connectionStateDisplay, BorderLayout.SOUTH);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        initConnection();
-        new Thread(this::updaterThreadFunction).start();
     }
 
     private void decreaseVelocity(ActionEvent event) {
@@ -80,7 +80,7 @@ public class VelocitySensor extends JFrame {
         }
     }
 
-    private void updaterThreadFunction() {
+    public void updaterThreadFunction() {
         while (true) {
             try {
                 if (this.client == null) {
