@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DownButton extends JButton {
-    private final String IMAGE_PATH = "/applicationServer/gui/resources/downarrow.png";
+    private final String IMAGE_PATH = "/applicationServer/gui/resources/arrow-down-64.png";
 
     public DownButton() {
         try {
