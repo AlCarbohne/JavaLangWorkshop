@@ -25,11 +25,11 @@ public class Server {
     private final ExecutorService threadPool;
     private final Semaphore connections;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Server().run();
     }
 
-    public Server() {
+    public Server() throws IOException {
         // bind to server port
         this.connections = new Semaphore(MAX_CONNECTIONS);
         this.threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
@@ -38,8 +38,9 @@ public class Server {
             log("Created " + listenerSocket);
         } catch (IOException e) {
             System.err.println("FATAL: encountered exception while trying to bind to listening port, exiting");
-            e.printStackTrace();
+            // destroy *EVERYTHING*
             this.threadPool.shutdownNow();
+            throw e;
         }
     }
 
@@ -90,7 +91,7 @@ public class Server {
                 log("Service \"" + command + "\" exiting");
                 socket.close();
                 this.connections.release();
-                log("Closed conncetion to " + socket);
+                log("Closed connection to " + socket);
             }
         } catch (IOException e) {
             log("IOException while negotiating with client: " + e.getMessage());

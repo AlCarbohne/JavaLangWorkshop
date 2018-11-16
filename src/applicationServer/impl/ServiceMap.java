@@ -9,16 +9,21 @@ import java.util.List;
 import java.util.Map;
 
 public class ServiceMap {
+
+    private static Map<String, ServiceFactory> serviceMap = new HashMap<>();
+    static {
+        serviceMap.put("ls", ServiceListerService::new);
+        serviceMap.put("ping", PingService::new);
+        serviceMap.put("timeofday", TimeOfDayService::new);
+        serviceMap.put("uppercase", UppercaseService::new);
+        serviceMap.put("tacho", TachoService::new);
+        serviceMap.put("scramble", ScrambleService::new);
+        serviceMap.put("cts", CaseTogglingService::new);
+        serviceMap.put("lowercase", new Transmogrifier((s) -> s.toLowerCase())::create);
+    }
+
     public static Map<String, ServiceFactory> get() {
-        Map<String, ServiceFactory> map = new HashMap<>();
-        map.put("ping", PingService::new);
-        map.put("timeofday", TimeOfDayService::new);
-        map.put("uppercase", UppercaseService::new);
-        map.put("tacho", TachoService::new);
-        map.put("scramble", ScrambleService::new);
-        map.put("cts", CaseTogglingService::new);
-        map.put("lowercase", new Transmogrifier((s) -> s.toLowerCase())::create);
-        return map;
+        return serviceMap;
     }
 
     
@@ -27,7 +32,7 @@ public class ServiceMap {
      *
      * @return list of every service name
      */
-    public static List<String> serviceNames() {
+    public static List<String> getServiceNames() {
         return new ArrayList<>(ServiceMap.get().keySet());
     }
 }
