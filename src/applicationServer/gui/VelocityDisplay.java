@@ -8,7 +8,7 @@ public class VelocityDisplay extends JLabel {
 
     public VelocityDisplay(double velocity) {
 
-        new JLabel(Double.toString(velocity));
+        super(Double.toString(velocity));
         this.setFont(VELOCITY_DISPLAY_FONT);
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setHorizontalAlignment(SwingConstants.CENTER);

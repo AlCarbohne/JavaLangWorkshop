@@ -9,14 +9,14 @@ import java.awt.event.ActionEvent;
 public class VelocitySensor extends JFrame {
 
     private static final String WINDOW_TITLE = "TachoUI";
-    private static final double MIN_VELOCITY = 0.0;
-    private static final double MAX_VELOCITY = 0.0;
-    private static final double VELOCITY_INCREMENT = 7.3;
-    private static final double VELOCITY_DECREMENT = 4.3;
+    private static final int MIN_VELOCITY = 0;
+    private static final int MAX_VELOCITY = 250_00;
+    private static final int VELOCITY_INCREMENT = 730;
+    private static final int VELOCITY_DECREMENT = 430;
     private static final int UPDATE_INTERVAL = 500;
 
     private Client client;
-    private double velocity;
+    private int velocity;
     private JButton upButton;
     private JButton downButton;
     private JLabel velocityDisplay;
@@ -29,7 +29,7 @@ public class VelocitySensor extends JFrame {
     public VelocitySensor() {
         super(WINDOW_TITLE);
 
-        this.velocity = 0.0;
+        this.velocity = 0;
 
         this.upButton = new UpButton();
         this.upButton.addActionListener(this::increaseVelocity);
@@ -41,7 +41,7 @@ public class VelocitySensor extends JFrame {
         this.add(this.upButton, BorderLayout.EAST);
         this.add(this.downButton, BorderLayout.WEST);
         this.add(this.velocityDisplay, BorderLayout.CENTER);
-        this.add(this.connectionStateDisplay);
+        this.add(this.connectionStateDisplay, BorderLayout.SOUTH);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -50,15 +50,16 @@ public class VelocitySensor extends JFrame {
     }
 
     private void decreaseVelocity(ActionEvent event) {
-        changeVelocity(VELOCITY_DECREMENT);
+        changeVelocity(-VELOCITY_DECREMENT);
     }
 
     private void increaseVelocity(ActionEvent event) {
+        System.out.println("up " + VELOCITY_INCREMENT);
         changeVelocity(VELOCITY_INCREMENT);
     }
 
-    private synchronized void changeVelocity(double difference) {
-        double newVelocity = this.velocity + difference;
+    private synchronized void changeVelocity(int difference) {
+        int newVelocity = this.velocity + difference;
         if (newVelocity < MIN_VELOCITY) {
             newVelocity = MIN_VELOCITY;
         } else if (newVelocity > MAX_VELOCITY) {
@@ -79,13 +80,16 @@ public class VelocitySensor extends JFrame {
         }
     }
 
-    private synchronized void updaterThreadFunction() {
+    private void updaterThreadFunction() {
         while (true) {
             try {
                 if (this.client == null) {
                     initConnection();
                 } else {
-                    client.sendRequests(Double.toString(velocity));
+                    synchronized (this) {
+                        client.sendRequests(Float.toString(velocity / 100));
+                        velocityDisplay.setText(Integer.toString(velocity));
+                    }
                 }
                 Thread.sleep(UPDATE_INTERVAL);
             } catch (InterruptedException e) {
