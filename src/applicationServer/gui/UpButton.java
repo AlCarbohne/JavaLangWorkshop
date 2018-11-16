@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UpButton extends JButton {
-    private final String IMAGE_PATH = "src/applicationServer/gui/resources/uparrow.png";
+    private final String IMAGE_PATH = "/applicationServer/gui/resources/uparrow.png";
 
     public UpButton() {
         try {

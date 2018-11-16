@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DownButton extends JButton {
-    private final String IMAGE_PATH = "src/applicationServer/gui/resources/downarrow.png";
+    private final String IMAGE_PATH = "/applicationServer/gui/resources/downarrow.png";
 
     public DownButton() {
         try {
@@ -15,6 +15,7 @@ public class DownButton extends JButton {
             System.out.println("Error fetching image for DownButton");
         }
 
-        this.setMinimumSize(new Dimension(200, 200));
+        this.setMinimumSize(new Dimension(50, 50));
+        this.setMaximumSize(new Dimension(50, 50));
     }
 }
