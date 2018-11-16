@@ -5,19 +5,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class DownButton extends JButton {
-    private final String IMAGE_PATH = "resources/water.bmp";
+    private final String IMAGE_PATH = "src/applicationServer/gui/resources/downarrow.png";
 
     public DownButton() {
         try {
             Image img = ImageIO.read(getClass().getResource(this.IMAGE_PATH));
             this.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
-            System.out.println("Error fetching image");
+            System.out.println("Error fetching image for DownButton");
         }
-    }
 
-    @Override
-    public void doClick() {
-        super.doClick();
+        this.setMinimumSize(new Dimension(50, 50));
     }
 }

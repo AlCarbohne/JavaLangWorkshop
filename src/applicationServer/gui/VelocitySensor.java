@@ -3,13 +3,11 @@ package applicationServer.gui;
 import applicationServer.impl.Client;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class VelocitySensor extends JFrame {
 
     private static final String WINDOW_TITLE = "TachoUI";
-    private static final Font VELOCITY_DISPLAY_FONT = new Font("Sans", Font.BOLD, 72);
 
     private final Client client;
     private double velocity;
@@ -20,21 +18,18 @@ public class VelocitySensor extends JFrame {
     public VelocitySensor() {
         super(WINDOW_TITLE);
 
-        velocity = 0.0;
-        upButton = new UpButton();
-        downButton = new DownButton();
-        velocityDisplay = new JLabel(Double.toString(velocity));
-        velocityDisplay.setFont(VELOCITY_DISPLAY_FONT);
-        velocityDisplay.setHorizontalTextPosition(SwingConstants.CENTER);
-        velocityDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+        this.velocity = 0.0;
+        this.upButton = new UpButton();
+        this.downButton = new DownButton();
+        this.velocityDisplay = new VelocityDisplay(this.velocity);
 
-        this.add(upButton, BorderLayout.NORTH);
-        this.add(downButton, BorderLayout.SOUTH);
-        this.add(velocityDisplay, BorderLayout.CENTER);
+        this.add(this.upButton, BorderLayout.NORTH);
+        this.add(this.downButton, BorderLayout.SOUTH);
+        this.add(this.velocityDisplay, BorderLayout.CENTER);
         this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
-        client = new Client();
+        this.client = new Client();
     }
 }

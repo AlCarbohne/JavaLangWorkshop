@@ -5,19 +5,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UpButton extends JButton {
-    private final String IMAGE_PATH = "resources/water.bmp";
+    private final String IMAGE_PATH = "src/applicationServer/gui/resources/uparrow.png";
 
     public UpButton() {
         try {
             Image img = ImageIO.read(getClass().getResource(this.IMAGE_PATH));
             this.setIcon(new ImageIcon(img));
         } catch (Exception ex) {
-            System.out.println("Error fetching image");
+            System.out.println("Error fetching image for UpButton");
         }
-    }
 
-    @Override
-    public void doClick() {
-        super.doClick();
+        this.setMinimumSize(new Dimension(50, 50));
     }
 }
