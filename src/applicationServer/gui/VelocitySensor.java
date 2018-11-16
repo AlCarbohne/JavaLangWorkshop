@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+import static javax.swing.SwingConstants.CENTER;
+
 public class VelocitySensor extends JFrame {
 
     private static final String WINDOW_TITLE = "TachoUI";
@@ -39,6 +41,7 @@ public class VelocitySensor extends JFrame {
         this.downButton.addActionListener(this::decreaseVelocity);
         this.velocityDisplay = new VelocityDisplay();
         this.connectionStateDisplay = new JLabel("Unknown connection state");
+        this.connectionStateDisplay.setHorizontalAlignment(CENTER);
 
         this.add(this.upButton, BorderLayout.EAST);
         this.add(this.downButton, BorderLayout.WEST);

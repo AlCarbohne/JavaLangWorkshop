@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 class ClientTest {
 
-    @BeforeAll
-    static void setUp() {
-        new Thread(() -> new Server().run()).start();
-    }
+//    @BeforeAll
+//    static void setUp() {
+//        new Thread(() -> new Server().run()).start();
+//    }
 
     @Test
     void testPing() {

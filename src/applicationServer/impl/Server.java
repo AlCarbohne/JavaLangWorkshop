@@ -6,6 +6,7 @@ import applicationServer.ServiceFactory;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,6 +35,7 @@ public class Server {
         this.threadPool = Executors.newFixedThreadPool(MAX_CONNECTIONS);
         try {
             this.listenerSocket = new ServerSocket(LISTEN_PORT);
+            log("Created " + listenerSocket);
         } catch (IOException e) {
             System.err.println("FATAL: encountered exception while trying to bind to listening port, exiting");
             e.printStackTrace();
@@ -73,6 +75,7 @@ public class Server {
           BufferedReader in = new LoggingBufferedReader(new InputStreamReader(socket.getInputStream()));
           PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(socket.getOutputStream()))
         ) {
+            log("Accepted connection from " + socket);
             String command = in.readLine();
             ServiceFactory sf = serviceMap.get(command);
             if (sf == null) {
@@ -81,14 +84,30 @@ public class Server {
             } else {
                 out.println("OK");
                 out.flush();
+                log("Service \"" + command + "\" starting");
                 Service service = sf.create(in, out);
                 service.start();
+                log("Service \"" + command + "\" exiting");
                 socket.close();
                 this.connections.release();
+                log("Closed conncetion to " + socket);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log("IOException while negotiating with client: " + e.getMessage());
+        } finally {
+            try {
+                if (!socket.isClosed()) {
+                    socket.close();
+                }
+            } catch (IOException e) {
+                //eat the exception
+                log("IOException while closing socket: " + e.getMessage());
+            }
         }
+    }
+
+    static void log(String msg) {
+        System.out.println(String.format("[%1$tF %1$tT.%1$tL %2$s] %3$s", LocalDateTime.now(), Thread.currentThread().getName(), msg));
     }
 
 }

@@ -57,8 +57,9 @@ public class Client implements applicationServer.Client {
             }
         } catch (IOException e) {
             System.out.println("Error in getting inputStream at client");
+            e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**

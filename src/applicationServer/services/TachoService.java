@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class TachoService implements Service {
-    BufferedReader inputStream;
-    PrintWriter outputStream;
+    private BufferedReader inputStream;
+    private PrintWriter outputStream;
 
     public TachoService(BufferedReader inputStream, PrintWriter outputStream) {
         this.inputStream = inputStream;
@@ -21,13 +21,12 @@ public class TachoService implements Service {
             String s;
             while (!(s = this.inputStream.readLine()).isEmpty()) {
                 /*
-                 * just send a acknowledge message and do not process it
+                 * just send a message to acknowledge and do not process it
                  */
                 this.outputStream.println("OK");
                 this.outputStream.flush();
             }
         } catch (IOException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
