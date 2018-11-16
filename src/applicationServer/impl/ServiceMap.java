@@ -16,6 +16,8 @@ public class ServiceMap {
         map.put("uppercase", UppercaseService::new);
         map.put("tacho", TachoService::new);
         map.put("scramble", ScrambleService::new);
+        map.put("cts", CaseTogglingService::new);
+        map.put("lowercase", new Transmogrifier((s) -> s.toLowerCase())::create);
         return map;
     }
 
