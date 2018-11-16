@@ -17,7 +17,7 @@ public class VelocityDisplay extends JLabel {
     }
 
     public VelocityDisplay() {
-        new VelocityDisplay(0);
+        this(0);
     }
 
     @Override
