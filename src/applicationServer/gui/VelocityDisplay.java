@@ -12,6 +12,12 @@ public class VelocityDisplay extends JLabel {
         this.setFont(VELOCITY_DISPLAY_FONT);
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setHorizontalAlignment(SwingConstants.CENTER);
+
+        this.setSize(300, 100);
+    }
+
+    public VelocityDisplay() {
+        new VelocityDisplay(0);
     }
 
     @Override

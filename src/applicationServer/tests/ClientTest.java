@@ -90,5 +90,5 @@ class ClientTest {
 /*
 Client abstrakte methode
 Server mit lambda
-GUI
+Scramble Service
  */
