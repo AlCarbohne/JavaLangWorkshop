@@ -20,10 +20,15 @@ public class ServiceMap {
         serviceMap.put("scramble", ScrambleService::new);
         serviceMap.put("cts", CaseTogglingService::new);
         serviceMap.put("lowercase", new Transmogrifier((s) -> s.toLowerCase())::create);
+        serviceMap.put("raw", SocketService::new);
     }
 
-    public static Map<String, ServiceFactory> get() {
-        return serviceMap;
+    public static ServiceFactory get(String serviceName) {
+        return serviceMap.get(serviceName);
+    }
+
+    static void registerService(String serviceName, ServiceFactory serviceFactory) {
+        serviceMap.put(serviceName, serviceFactory);
     }
 
     
@@ -33,6 +38,6 @@ public class ServiceMap {
      * @return list of every service name
      */
     public static List<String> getServiceNames() {
-        return new ArrayList<>(ServiceMap.get().keySet());
+        return new ArrayList<>(serviceMap.keySet());
     }
 }

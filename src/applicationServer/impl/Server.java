@@ -19,8 +19,6 @@ public class Server {
     public static final int LISTEN_PORT = 8000;
     public static final int MAX_CONNECTIONS = 12;
 
-    private static Map<String, ServiceFactory> serviceMap = ServiceMap.get();
-
     private ServerSocket listenerSocket;
     private final ExecutorService threadPool;
     private final Semaphore connections;
@@ -78,7 +76,7 @@ public class Server {
         ) {
             log("Accepted connection from " + socket);
             String command = in.readLine();
-            ServiceFactory sf = serviceMap.get(command);
+            ServiceFactory sf = ServiceMap.get(command);
             if (sf == null) {
                 out.println("Service \"" + command + "\" does not exist");
                 out.flush();
@@ -86,7 +84,7 @@ public class Server {
                 out.println("OK");
                 out.flush();
                 log("Service \"" + command + "\" starting");
-                Service service = sf.create(in, out);
+                Service service = sf.create(socket);
                 service.start();
                 log("Service \"" + command + "\" exiting");
                 socket.close();

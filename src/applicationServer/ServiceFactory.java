@@ -22,7 +22,5 @@ public interface ServiceFactory {
         );
         return create(reader, writer);
     }
-
     Service create(BufferedReader reader, PrintWriter writer);
-
 }
