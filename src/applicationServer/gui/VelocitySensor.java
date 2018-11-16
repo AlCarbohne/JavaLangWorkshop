@@ -64,7 +64,7 @@ public class VelocitySensor extends JFrame {
         changeVelocity(VELOCITY_INCREMENT);
     }
 
-    private synchronized void changeVelocity(int difference) {
+    public synchronized void changeVelocity(int difference) {
         int newVelocity = this.velocity + difference;
         if (newVelocity < MIN_VELOCITY) {
             newVelocity = MIN_VELOCITY;
