@@ -9,11 +9,11 @@ import java.awt.event.ActionEvent;
 public class VelocitySensor extends JFrame {
 
     private static final String WINDOW_TITLE = "TachoUI";
-    private static final Font VELOCITY_DISPLAY_FONT = new Font("Sans", Font.BOLD, 72);
     private static final double MIN_VELOCITY = 0.0;
     private static final double MAX_VELOCITY = 0.0;
     private static final double VELOCITY_INCREMENT = 7.3;
     private static final double VELOCITY_DECREMENT = 4.3;
+    private static final int UPDATE_INTERVAL = 500;
 
     private Client client;
     private double velocity;
@@ -68,7 +68,7 @@ public class VelocitySensor extends JFrame {
     }
 
     public void initConnection() {
-        if (this.client == null) {
+        if (this.client != null) {
             return;
         }
         this.client = new Client();
@@ -79,7 +79,18 @@ public class VelocitySensor extends JFrame {
         }
     }
 
-    private void updaterThreadFunction() {
-
+    private synchronized void updaterThreadFunction() {
+        while (true) {
+            try {
+                if (this.client == null) {
+                    initConnection();
+                } else {
+                    client.sendRequests(Double.toString(velocity));
+                }
+                Thread.sleep(UPDATE_INTERVAL);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
