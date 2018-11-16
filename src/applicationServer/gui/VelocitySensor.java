@@ -3,7 +3,6 @@ package applicationServer.gui;
 import applicationServer.impl.Client;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -30,14 +29,13 @@ public class VelocitySensor extends JFrame {
     public VelocitySensor() {
         super(WINDOW_TITLE);
 
-        velocity = 0.0;
+        this.velocity = 0.0;
 
         this.upButton = new UpButton();
         this.upButton.addActionListener(this::increaseVelocity);
         this.downButton = new DownButton();
         this.downButton.addActionListener(this::decreaseVelocity);
         this.velocityDisplay = new VelocityDisplay(this.velocity);
-        this.velocityDisplay.setFont(VELOCITY_DISPLAY_FONT);
         this.connectionStateDisplay = new JLabel("Unknown connection state");
 
         this.add(this.upButton, BorderLayout.EAST);
@@ -58,26 +56,26 @@ public class VelocitySensor extends JFrame {
     private void increaseVelocity(ActionEvent event) {
         changeVelocity(VELOCITY_INCREMENT);
     }
-    
+
     private synchronized void changeVelocity(double difference) {
-        double newVelocity = velocity + difference;
+        double newVelocity = this.velocity + difference;
         if (newVelocity < MIN_VELOCITY) {
             newVelocity = MIN_VELOCITY;
         } else if (newVelocity > MAX_VELOCITY) {
             newVelocity = MAX_VELOCITY;
         }
-        velocity = newVelocity;
+        this.velocity = newVelocity;
     }
 
     public void initConnection() {
         if (this.client == null) {
             return;
         }
-        client = new Client();
-        String serverResponse = client.sendRequests("tacho");
+        this.client = new Client();
+        String serverResponse = this.client.sendRequests("tacho");
         if (serverResponse.equals("OK")) {
-            connectionStateDisplay.setText("connected");
-            connectionStateDisplay.setForeground(Color.GREEN);
+            this.connectionStateDisplay.setText("connected");
+            this.connectionStateDisplay.setForeground(Color.GREEN);
         }
     }
 
