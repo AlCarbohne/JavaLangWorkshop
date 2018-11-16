@@ -37,7 +37,7 @@ public class VelocitySensor extends JFrame {
         this.upButton.addActionListener(this::increaseVelocity);
         this.downButton = new DownButton();
         this.downButton.addActionListener(this::decreaseVelocity);
-        this.velocityDisplay = new VelocityDisplay(this.velocity);
+        this.velocityDisplay = new VelocityDisplay();
         this.connectionStateDisplay = new JLabel("Unknown connection state");
 
         this.add(this.upButton, BorderLayout.EAST);
@@ -61,7 +61,6 @@ public class VelocitySensor extends JFrame {
     }
 
     private void increaseVelocity(ActionEvent event) {
-        System.out.println("up " + VELOCITY_INCREMENT);
         changeVelocity(VELOCITY_INCREMENT);
     }
 
@@ -101,7 +100,7 @@ public class VelocitySensor extends JFrame {
                     initConnection();
                 } else {
                     synchronized (this) {
-                        this.client.sendRequests(Float.toString(this.velocity / 100));
+                        this.client.sendRequests(Float.toString((float) this.velocity / 100));
                         this.velocityDisplay.setText(Integer.toString(this.velocity));
                     }
                 }
