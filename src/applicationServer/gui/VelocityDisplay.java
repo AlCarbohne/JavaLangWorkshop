@@ -44,6 +44,6 @@ public class VelocityDisplay extends JLabel {
             ending = text.substring(text.length() - 2);
         }
 
-        super.setText(beginning + "." + ending);
+        super.setText("   " + beginning + "." + ending + "   ");
     }
 }
