@@ -15,8 +15,8 @@ import java.util.concurrent.Semaphore;
 public class Server {
 
     // TODO add configurable listen ports and maximum connection numbers
-    public static final int LISTEN_PORT = 8000;
-    public static final int MAX_CONNECTIONS = 12;
+    static final int LISTEN_PORT = 8000;
+    private static final int MAX_CONNECTIONS = 12;
 
     private static Map<String, ServiceFactory> serviceMap = ServiceMap.get();
 
@@ -41,7 +41,6 @@ public class Server {
         }
     }
 
-    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while (true) {
             try {
@@ -70,8 +69,8 @@ public class Server {
             service or the string "ls" to list all available services on the server.
          */
         try (
-          BufferedReader in = new LoggingBufferedReader(new InputStreamReader(socket.getInputStream()));
-          PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(socket.getOutputStream()))
+                BufferedReader in = new LoggingBufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new LoggingPrintWriter(new OutputStreamWriter(socket.getOutputStream()))
         ) {
             String command = in.readLine();
             ServiceFactory sf = serviceMap.get(command);

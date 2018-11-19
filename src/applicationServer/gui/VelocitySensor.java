@@ -24,9 +24,6 @@ public class VelocitySensor extends JFrame {
 
     private Thread updaterThread;
 
-    public static void main(String[] args) {
-        new VelocitySensor().run();
-    }
 
     public VelocitySensor() {
         super(WINDOW_TITLE);
@@ -75,7 +72,7 @@ public class VelocitySensor extends JFrame {
         this.velocityDisplay.setText(Integer.toString(this.velocity));
     }
 
-    public boolean initConnection() {
+    private boolean initConnection() {
         if (this.client != null) {
             return false;
         }
@@ -93,7 +90,8 @@ public class VelocitySensor extends JFrame {
         return this.velocity;
     }
 
-    public void updaterThreadFunction() {
+    @SuppressWarnings("InfiniteLoopStatement")
+    private void updaterThreadFunction() {
         while (true) {
             try {
                 if (this.client == null) {

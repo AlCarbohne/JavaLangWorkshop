@@ -7,10 +7,6 @@ import java.nio.charset.StandardCharsets;
 
 public class Client implements applicationServer.Client {
 
-    public static void main(String[] args) {
-        new Client();
-    }
-
     public Client() {
         try {
             Socket socket = new Socket("localhost", Server.LISTEN_PORT);
