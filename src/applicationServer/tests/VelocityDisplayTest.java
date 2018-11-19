@@ -9,7 +9,7 @@ class VelocityDisplayTest {
     @Test
     void setText() {
         VelocityDisplay display = new VelocityDisplay(0);
-        Assertions.assertEquals("0.00", display.getText());
+        Assertions.assertEquals("   0.00   ", display.getText()); //initial padding
 
         display.setText("000");
         Assertions.assertEquals("0.00", display.getText());
