@@ -24,11 +24,6 @@ public class Client implements applicationServer.Client {
     private InputStream inputStream;
     private OutputStream outputStream;
 
-    @Override
-    public void run() {
-        throw new UnsupportedOperationException("not yet");
-    }
-
     /**
      * @param command which to send to the server
      * @return the answer from the server
