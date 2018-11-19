@@ -9,7 +9,7 @@ public class Client implements applicationServer.Client {
 
     public Client() {
         try {
-            Socket socket = new Socket("localhost", Server.LISTEN_PORT);
+            Socket socket = new Socket("localhost", Server.getListenPort());
             this.inputStream = socket.getInputStream();
             this.outputStream = socket.getOutputStream();
 

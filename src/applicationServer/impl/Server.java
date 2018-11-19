@@ -15,7 +15,7 @@ import java.util.concurrent.Semaphore;
 public class Server {
 
     // TODO add configurable listen ports and maximum connection numbers
-    static final int LISTEN_PORT = 8000;
+    private static final int LISTEN_PORT = 8000;
     private static final int MAX_CONNECTIONS = 12;
 
     private static Map<String, ServiceFactory> serviceMap = ServiceMap.get();
@@ -39,6 +39,10 @@ public class Server {
             e.printStackTrace();
             this.threadPool.shutdownNow();
         }
+    }
+
+    static int getListenPort() {
+        return LISTEN_PORT;
     }
 
     public void run() {
